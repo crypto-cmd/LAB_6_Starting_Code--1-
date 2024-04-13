@@ -43,6 +43,8 @@ public class ExpenseAdder extends JFrame {
         //DO WE WANT IT TO BE SAVED TO A SPECIFIC FILE OR DATABASE
         System.out.println("Expense added: " + expenseText);
         expenseField.setText(""); //will clear text field after expense is added
+
+
     }
     public static void main (String [] args) {
         SwingUtilities.invokeLater(new Runnable() {

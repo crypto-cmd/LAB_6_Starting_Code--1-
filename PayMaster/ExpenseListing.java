@@ -4,8 +4,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Scanner;
@@ -13,11 +11,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JButton;
-import javax.swing.table.*;
 import javax.swing.table.DefaultTableModel;
-import java.util.Comparator;
-import java.util.Collections;
-import java.awt.Color;
 
 
 public class ExpenseListing extends JPanel {
@@ -42,7 +36,7 @@ public class ExpenseListing extends JPanel {
         commandPanel = new JPanel();
         displayPanel = new JPanel();
 
-        expenseList= loadExpense("expenses.txt");
+        expenseList= loadExpense();
         String[] columnNames=  {"Name",
                 "Category",
                 "Cost",
@@ -61,6 +55,7 @@ public class ExpenseListing extends JPanel {
        
         cmdAddCard  = new JButton("Add Card");
         cmdAddExpense  = new JButton("Add Expense");
+        cmdPayAnExpense = new JButton("Pay Expense");
 
         cmdAddCard.addActionListener(
             new ActionListener() {
@@ -70,10 +65,27 @@ public class ExpenseListing extends JPanel {
                 }
             }
         );
+
+        cmdAddExpense.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                new ExpenseAdder();
+            }
+        });
+
+        cmdPayAnExpense.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        new ExpensePayer();
+                    }
+                }
+        );
         
         commandPanel.add(cmdAddCard);
         commandPanel.add(cmdAddExpense);
-       
+        commandPanel.add(cmdPayAnExpense);
+
         add(commandPanel);
     }
 
@@ -85,7 +97,7 @@ public class ExpenseListing extends JPanel {
     private void addToTable(Expense expense)
     {
         
-        String[] item={expense.name, expense.category, ""+expense.cost, expense.notes};
+        String[] item={expense.name, expense.category, String.valueOf(expense.cost), expense.notes};
         model.addRow(item);        
 
     }
@@ -122,13 +134,13 @@ public class ExpenseListing extends JPanel {
 
     }
 
-    private ArrayList<Expense> loadExpense(String file)
+    private ArrayList<Expense> loadExpense()
     {
         Scanner scan = null;
-        ArrayList<Expense> list = new ArrayList<Expense>();
+        ArrayList<Expense> list = new ArrayList<>();
         try
         {
-            scan  = new Scanner(new File(file));
+            scan  = new Scanner(new File("out/production/PayMaster/expenses.dat"));
             while(scan.hasNext())
             {
                 
@@ -136,7 +148,7 @@ public class ExpenseListing extends JPanel {
                 String name = nextLine[0];
                 String category = nextLine[1];
                 float cost = Float.parseFloat(nextLine[2]);
-                String notes = nextLine[4];
+                String notes = nextLine[3];
                 Expense expense = new Expense(name, category, cost, notes);
                 list.add(expense);
             }

@@ -93,8 +93,5 @@ class GetpaymentForm extends JFrame implements ActionListener
            JOptionPane.showMessageDialog(null, "Payment was successful.");
 	}  
 	// Main method
-    public static void main (String args[])
-    {
-        new GetpaymentForm ();
-    }
+
 }

@@ -27,45 +27,41 @@ public class ExpensePayer extends JFrame implements ActionListener {
     private JTextField cardNumberField;
     private JButton payButton;
 
-public ExpensePayer(){
-    setTitle("Automated Teller System");
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(500, 500);
-    setlayout(new GridLayout(3,2));
+    public ExpensePayer(){
+        setTitle("Automated Teller System");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 500);
+        setLayout(new GridLayout(3,2));
 
-    JLabel expenseLabel = new JLabel("Please Enter the Amount to be Paid:");
-    add(expenseLabel);
+        JLabel expenseLabel = new JLabel("Please Enter the Amount to be Paid:");
+        add(expenseLabel);
 
-    expenseField = new JTextField();
-    add (expenseField);
+        expenseField = new JTextField();
+        add (expenseField);
 
-    JLabel cardnumLabel = new JLabel("Please Enter the Credit Card Number:");
-    add(cardnumLabel);
+        JLabel cardnumLabel = new JLabel("Please Enter the Credit Card Number:");
+        add(cardnumLabel);
 
-    cardNumberField = new JTextField();
-    add(cardNumberField);
+        cardNumberField = new JTextField();
+        add(cardNumberField);
 
-    payButton = new JButton("Click Here to Pay Expenses");
-    payButton.addActionListener(this);
-    add(payButton);
+        payButton = new JButton("Click Here to Pay Expenses");
+        payButton.addActionListener(this);
+        add(payButton);
 
-    setVisible(true);
-}
-
-public void actionPhase (ActionEvent start){
-    if (start.getSource == payButton){
-        double expenseAmmount = Double.parseDouble(expenseField.getText());
-        String cardNumber = cardNumberField.getText();
-
-        JOptionPane.showMessageDialog(this, "Expense paid successfully");
+        setVisible(true);
     }
-}
 
-public static void main(String[] args) {
-    new ExpensePayer();
-    
-}
-         
+    public void actionPerformed(ActionEvent start){
+        if (start.getSource() == payButton){
+            double expenseAmmount = Double.parseDouble(expenseField.getText());
+            String cardNumber = cardNumberField.getText();
 
+            JOptionPane.showMessageDialog(this, "Expense paid successfully");
+        }
     }
+
+
+
+
 }
