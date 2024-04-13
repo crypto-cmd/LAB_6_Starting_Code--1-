@@ -28,7 +28,7 @@ public class ExpensePayer extends JFrame implements ActionListener {
     private JButton payButton;
 
 public ExpensePayer(){
-    setTitle("Automated Telling System");
+    setTitle("Automated Teller System");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(500, 500);
     setlayout(new GridLayout(3,2));
@@ -37,7 +37,7 @@ public ExpensePayer(){
     add(expenseLabel);
 
     expenseField = new JTextField();
-    add expenseField;
+    add (expenseField);
 
     JLabel cardnumLabel = new JLabel("Please Enter the Credit Card Number:");
     add(cardnumLabel);
@@ -57,10 +57,15 @@ public void actionPhase (ActionEvent start){
         double expenseAmmount = Double.parseDouble(expenseField.getText());
         String cardNumber = cardNumberField.getText();
 
-        //This will show the insufficient amount on the card
+        JOptionPane.showMessageDialog(this, "Expense paid successfully");
+    }
+}
 
-         if (cardNumber.equals("123456789") && expenseAmount > getCurrentBalance) {
-                JOptionPane.showMessageDialog(this, "Error: Insufficient funds, Try Another Card");
+public static void main(String[] args) {
+    new ExpensePayer();
+    
+}
+         
 
     }
 }
