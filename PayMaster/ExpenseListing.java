@@ -24,7 +24,6 @@ public class ExpenseListing extends JPanel {
     private JButton     cmdAddCard;
     private JButton     cmdAddExpense;
     private JButton     cmdPayAnExpense;
-    private JButton     cmdClose;
   
     private JPanel      commandPanel;
     private JPanel      displayPanel;
@@ -43,7 +42,7 @@ public class ExpenseListing extends JPanel {
         commandPanel = new JPanel();
         displayPanel = new JPanel();
 
-        expenseList= loadPersons("expenses.dat");
+        expenseList= loadExpense("expenses.txt");
         String[] columnNames=  {"Name",
                 "Category",
                 "Cost",
@@ -62,7 +61,6 @@ public class ExpenseListing extends JPanel {
        
         cmdAddCard  = new JButton("Add Card");
         cmdAddExpense  = new JButton("Add Expense");
-        cmdClose   = new JButton("Close");
 
         cmdAddCard.addActionListener(
             new ActionListener() {
@@ -71,31 +69,30 @@ public class ExpenseListing extends JPanel {
                     // Call the Add Card popup
                 }
             }
-        )
+        );
         
-        pnlCommand.add(cmdAddCard);
-        pnlCommand.add(cmdAddExpense);
-        pnlCommand.add(cmdClose);
+        commandPanel.add(cmdAddCard);
+        commandPanel.add(cmdAddExpense);
        
-        add(pnlCommand);
+        add(commandPanel);
     }
 
     private void showTable(ArrayList<Expense> l)
     {
-       for (Expense e: l) addToTable(e)
+       for (Expense e: l) addToTable(e);
 
     }
     private void addToTable(Expense expense)
     {
-        String[] name= expense.name;
-        String[] item={name,expense.category, p.cost,expense.notes};
+        
+        String[] item={expense.name, expense.category, ""+expense.cost, expense.notes};
         model.addRow(item);        
 
     }
 
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("List of persons who are requesting a vaccine");
+        JFrame frame = new JFrame("Automated Telling System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
@@ -135,18 +132,22 @@ public class ExpenseListing extends JPanel {
             while(scan.hasNext())
             {
                 
-                // 
+            	String [] nextLine = scan.nextLine().split(",");
+                String name = nextLine[0];
+                String category = nextLine[1];
+                float cost = Float.parseFloat(nextLine[2]);
+                String notes = nextLine[4];
+                Expense expense = new Expense(name, category, cost, notes);
+                list.add(expense);
             }
 
             scan.close();
         }
         catch(IOException e)
-        {}
+        {
+        	System.out.println(e);
+        	
+        }
         return list;
     }
-
-
-
-    
-
 }
