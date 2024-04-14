@@ -51,7 +51,7 @@ public ExpensePayer(ExpenseListing elist){
     expenseDropDown = new JComboBox<>(expenselist);
     add(expenseDropDown);
 
-    JLabel expenseLabel = new JLabel("Enter Expense Amount:");
+    JLabel expense2Label = new JLabel("Enter Expense Amount:");
     add(expenseLabel);
 
     expenseField = new JTextField();
