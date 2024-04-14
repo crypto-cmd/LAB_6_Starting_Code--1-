@@ -51,25 +51,12 @@ public ExpensePayer(ExpenseListing elist){
     expenseDropDown = new JComboBox<>(expenselist);
     add(expenseDropDown);
 
-    JLabel expense2Label = new JLabel("Enter Expense Amount:");
-    add(expense2Label);
-
-    expenseField = new JTextField();
-    add (expenseField);
-
-
     JLabel paymentMethodLabel = new JLabel("Payment Method:");
     add(paymentMethodLabel);
 
     String[] paymentMethods = {"Credit Card", "Debit Card", "PayPal", "Bank Transfer"};
     paymentMethodComboBox = new JComboBox<>(paymentMethods);
     add(paymentMethodComboBox);
-
-    JLabel cardnumLabel = new JLabel("Please Enter the Card/Account Number:");
-    add(cardnumLabel);
-
-    cardNumberField = new JTextField();
-    add(cardNumberField);
 
 
     payButton = new JButton("Click Here to Pay Expenses");
