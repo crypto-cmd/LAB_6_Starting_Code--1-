@@ -26,12 +26,26 @@ public class ExpensePayer extends JFrame implements ActionListener {
     private JTextField expenseField;
     private JTextField cardNumberField;
     private JButton payButton;
+    private JComboBox<String> paymentMethodComboBox;
+    private JComboBox<String> expenseDropDown;
 
-public ExpensePayer(){
+public ExpensePayer(ExpenseListing elist){
     setTitle("Automated Teller System");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(500, 500);
-    setlayout(new GridLayout(3,2));
+    setLayout(new GridLayout(5,2));
+
+    JLabel expenseLabel = new JLabel("Select Expense:");
+    add(expenseLabel);
+
+    ArrayList<String> expenselist = elist.getExpenseList()
+    .stream()
+    .map(e->e.name)
+    .collect(Collectors.toList());
+
+    expenseDropDown = new JComboBox<>(expenselist);
+    add(expenseDropDown);
+
 
     JLabel expenseLabel = new JLabel("Please Enter the Amount to be Paid:");
     add(expenseLabel);
@@ -39,8 +53,16 @@ public ExpensePayer(){
     expenseField = new JTextField();
     add (expenseField);
 
-    JLabel cardnumLabel = new JLabel("Please Enter the Credit Card Number:");
-    add(cardnumLabel);
+    JLabel paymentMethodLabel = new JLabel("Payment Method:");
+    add(paymentMethodLabel);
+
+    String[] paymentMethods = {"Credit Card", "Debit Card", "PayPal", "Bank Transfer"};
+    paymentMethodComboBox = new JComboBox<>(paymentMethods);
+    add(paymentMethodComboBox);
+
+
+    JLabel cardnumLabel = new JLabel("Please Enter the Card/Account Number:");
+    add(accnumLabel);
 
     cardNumberField = new JTextField();
     add(cardNumberField);
@@ -52,20 +74,17 @@ public ExpensePayer(){
     setVisible(true);
 }
 
-public void actionPhase (ActionEvent start){
+public void actionPerformed (ActionEvent start){
     if (start.getSource == payButton){
         double expenseAmmount = Double.parseDouble(expenseField.getText());
         String cardNumber = cardNumberField.getText();
+        String paymentMethod = (String) paymentMethodComboBox.getSelectedItem();
+        String expense = expenseDropDown.getSelectedItem();
+        ExpenseListing.removeExpense(expense);
+
 
         JOptionPane.showMessageDialog(this, "Expense paid successfully");
     }
 }
-
-public static void main(String[] args) {
-    new ExpensePayer();
-    
-}
-         
-
-    }
+       
 }
