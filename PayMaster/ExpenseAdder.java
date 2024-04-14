@@ -4,7 +4,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class ExpenseAdder extends JFrame {
-    private  JTextField expenseField;
+    private JTextField expenseField;
+    private JTextField costField;
+    private JTextArea notesArea;
     private JComboBox <String> categoryDropdown;
     private JButton addButton;
 
@@ -13,19 +15,28 @@ public class ExpenseAdder extends JFrame {
         super("Expense Adder");
 
         // componenets to add expense
-        JLabel expenseLabel = new JLabel("Enter Expense:");
-        expenseField = new JTextField(20);
-        String[] categories = {"Utilitly". "Food"}//add other expenses
+        JLabel nameLabel = new JLabel("Name:");
+        nameField = new JTextField(10);
+        JLabel costLabel = new JLabel("Cost:");
+        costField = new JTextField(10);
+        JLabel categoryLabel = new JLabel("Category:");
+        String[] categories = {"Utilitly", "Food"}//add other expenses
         categoryDropdown = new JComboBox<>(categories);
+        JLabel notesLabel = new JLabel("Notes:");
+        notesArea = new JTextArea(4, 20);
         addButton = new JButton("Add Expense");
 
         //setting the layout
         setLayout(new FlowLayout());
 
         //adding the components to the frame
-        add (expenseLabel);
-        add (expenseField);
+        add (nameLabel);
+        add (nameField);
+        add (costLabel);
+        add (costField);
+        add (categoryLabel);
         add (categoryDropdown);
+        add (notesLabel);
         add (addButton);
 
         //adding the actionlistener to the button
@@ -36,23 +47,20 @@ public class ExpenseAdder extends JFrame {
         });
 
         //setting the frame properties 
-        setSize(300, 150);
+        setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
 
     private void addExpense(){
-        String expenseText = expenseField.getText();
+        String name = nameField.getText();
+        float cost = Float.parseFloat(costField.getText());
         String category = (String) categoryDropdown.getSelectedItem();
-        System.out.println("Expense added: " + expenseText + "Category: " + category);
-        expenseField.setText(""); //will clear text field after expense is added
+        String notes = notesArea.getText();
+        System.out.println("Expense added: Name- " + name +", Cost- " + cost + ", Category- " + category- " +category + ". Notes- " + notes);
+        clearFields(); //will clear all text field after expense is added
     }
-    public static void main (String [] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run () {
-                new ExpenseAdder();
-            }
-        });
-    }
+
+    
 }
