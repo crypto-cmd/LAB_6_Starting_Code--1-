@@ -58,7 +58,7 @@ public class ExpenseAdder extends JFrame {
         float cost = Float.parseFloat(costField.getText());
         String category = (String) categoryDropdown.getSelectedItem();
         String notes = notesArea.getText();
-        System.out.println("Expense added: Name- " + name +", Cost- " + cost + ", Category- " + category- " +category + ". Notes- " + notes);
+        System.out.println("Expense added: Name- " + name +", Cost- " + cost + ", Category- " + category- " + category + ". Notes- " + notes);
         clearFields(); //will clear all text field after expense is added
     }
 
