@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 
 public class ExpenseAdder extends JFrame {
     private  JTextField expenseField;
+    private JComboBox <String> categoryDropdown;
     private JButton addButton;
 
 
@@ -14,6 +15,8 @@ public class ExpenseAdder extends JFrame {
         // componenets to add expense
         JLabel expenseLabel = new JLabel("Enter Expense:");
         expenseField = new JTextField(20);
+        String[] categories = {"Utilitly". "Food"}//add other expenses
+        categoryDropdown = new JComboBox<>(categories);
         addButton = new JButton("Add Expense");
 
         //setting the layout
@@ -22,6 +25,7 @@ public class ExpenseAdder extends JFrame {
         //adding the components to the frame
         add (expenseLabel);
         add (expenseField);
+        add (categoryDropdown);
         add (addButton);
 
         //adding the actionlistener to the button
@@ -40,8 +44,8 @@ public class ExpenseAdder extends JFrame {
 
     private void addExpense(){
         String expenseText = expenseField.getText();
-        //DO WE WANT IT TO BE SAVED TO A SPECIFIC FILE OR DATABASE
-        System.out.println("Expense added: " + expenseText);
+        String category = (String) categoryDropdown.getSelectedItem();
+        System.out.println("Expense added: " + expenseText + "Category: " + category);
         expenseField.setText(""); //will clear text field after expense is added
     }
     public static void main (String [] args) {
