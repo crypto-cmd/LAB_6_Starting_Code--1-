@@ -95,3 +95,4 @@ class GetpaymentForm extends JFrame implements ActionListener
 	// Main method
 
 }
+
