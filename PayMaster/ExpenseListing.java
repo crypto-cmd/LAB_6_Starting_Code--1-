@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
@@ -38,6 +39,10 @@ public class ExpenseListing extends JPanel {
 
     private JTable table;
     private DefaultTableModel model;
+
+    public ArrayList<Expense> getExpenseList() {
+        return expenseList;
+    }
 
     public ExpenseListing() {
         super(new GridLayout(2,1));
@@ -79,7 +84,7 @@ public class ExpenseListing extends JPanel {
         cmdAddExpense.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                new ExpenseAdder();
+                new ExpenseAdder(me);
             }
         });
 
@@ -87,7 +92,7 @@ public class ExpenseListing extends JPanel {
                 new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent actionEvent) {
-                        new ExpensePayer();
+                        new ExpensePayer(me);
                     }
                 }
         );
@@ -235,5 +240,12 @@ public class ExpenseListing extends JPanel {
         	
         }
         return list;
+    }
+    public void removeExpense(String detail) {
+        List<Expense> newList = expenseList.stream().filter(e -> !Objects.equals(e.name, detail)).toList();
+        expenseList.clear();
+        expenseList.addAll(newList);
+        showTable(expenseList);
+
     }
 }

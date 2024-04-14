@@ -7,15 +7,16 @@ public class ExpenseAdder extends JFrame {
     private  JTextField expenseField;
     private JComboBox <String> categoryDropdown;
     private JButton addButton;
+    ExpenseListing listing;
 
 
-    public ExpenseAdder() {
+    public ExpenseAdder(ExpenseListing listing) {
         super("Expense Adder");
-
-        // componenets to add expense
+        this.listing = listing;
+        // components to add expense
         JLabel expenseLabel = new JLabel("Enter Expense:");
         expenseField = new JTextField(20);
-        String[] categories = {"Utilitly". "Food"}//add other expenses
+        String[] categories = {"Utility", "Food"};//add other expenses
         categoryDropdown = new JComboBox<>(categories);
         addButton = new JButton("Add Expense");
 
@@ -49,12 +50,6 @@ public class ExpenseAdder extends JFrame {
         expenseField.setText(""); //will clear text field after expense is added
 
 
-    }
-    public static void main (String [] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run () {
-                new ExpenseAdder();
-            }
-        });
+
     }
 }

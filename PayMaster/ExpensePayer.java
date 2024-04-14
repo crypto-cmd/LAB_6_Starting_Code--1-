@@ -21,15 +21,18 @@ import java.awt.Color;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.stream.Collectors;
 
 public class ExpensePayer extends JFrame implements ActionListener {
     private JTextField expenseField;
     private JTextField cardNumberField;
     private JButton payButton;
     private JComboBox<String> paymentMethodComboBox;
-    private JComboBox<String> expenseDropDown;
+    private JComboBox expenseDropDown;
+    ExpenseListing elist;
 
 public ExpensePayer(ExpenseListing elist){
+    this.elist = elist;
     setTitle("Automated Teller System");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(500, 500);
@@ -38,17 +41,18 @@ public ExpensePayer(ExpenseListing elist){
     JLabel expenseLabel = new JLabel("Select Expense:");
     add(expenseLabel);
 
-    ArrayList<String> expenselist = elist.getExpenseList()
-    .stream()
-    .map(e->e.name)
-    .collect(Collectors.toList());
+    String[] expenselist = new String[elist.getExpenseList().size()];
+    for (int i = 0; i < expenselist.length; i++) {
+        Expense e= elist.getExpenseList().get(i);
+        expenselist[i] = String.format("%s(%s)", e.name,e.id);
+    }
+
 
     expenseDropDown = new JComboBox<>(expenselist);
     add(expenseDropDown);
 
 
-    JLabel expenseLabel = new JLabel("Please Enter the Amount to be Paid:");
-    add(expenseLabel);
+
 
     expenseField = new JTextField();
     add (expenseField);
@@ -62,7 +66,7 @@ public ExpensePayer(ExpenseListing elist){
 
 
     JLabel cardnumLabel = new JLabel("Please Enter the Card/Account Number:");
-    add(accnumLabel);
+    add(cardnumLabel);
 
     cardNumberField = new JTextField();
     add(cardNumberField);
@@ -75,13 +79,12 @@ public ExpensePayer(ExpenseListing elist){
 }
 
 public void actionPerformed (ActionEvent start){
-    if (start.getSource == payButton){
+    if (start.getSource() == payButton){
         double expenseAmmount = Double.parseDouble(expenseField.getText());
         String cardNumber = cardNumberField.getText();
         String paymentMethod = (String) paymentMethodComboBox.getSelectedItem();
-        String expense = expenseDropDown.getSelectedItem();
-        ExpenseListing.removeExpense(expense);
-
+        String expense = expenseDropDown.getSelectedItem().toString();
+        elist.removeExpense(expense);
 
         JOptionPane.showMessageDialog(this, "Expense paid successfully");
     }
