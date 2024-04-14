@@ -242,7 +242,10 @@ public class ExpenseListing extends JPanel {
         return list;
     }
     public void removeExpense(String detail) {
-        List<Expense> newList = expenseList.stream().filter(e -> !Objects.equals(e.name, detail)).toList();
+
+        List<Expense> newList = expenseList.stream().filter(e ->
+                !String.format("%s(%s)", e.name,e.id).equals(detail)
+        ).toList();
         expenseList.clear();
         expenseList.addAll(newList);
         showTable(expenseList);

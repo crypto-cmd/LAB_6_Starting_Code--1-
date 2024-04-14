@@ -6,21 +6,23 @@ import java.awt.event.ActionEvent;
 public class ExpenseAdder extends JFrame {
     private JTextField expenseField;
     private JTextField costField;
+    private JTextField nameField;
     private JTextArea notesArea;
     private JComboBox <String> categoryDropdown;
     private JButton addButton;
 
+    ExpenseListing eList;
 
-    public ExpenseAdder() {
+    public ExpenseAdder(ExpenseListing eList) {
         super("Expense Adder");
-
+        this.eList = eList;
         // componenets to add expense
         JLabel nameLabel = new JLabel("Name:");
         nameField = new JTextField(10);
         JLabel costLabel = new JLabel("Cost:");
         costField = new JTextField(10);
         JLabel categoryLabel = new JLabel("Category:");
-        String[] categories = {"Utilitly", "Food"}//add other expenses
+        String[] categories = {"Utility", "Food"};//add other expenses
         categoryDropdown = new JComboBox<>(categories);
         JLabel notesLabel = new JLabel("Notes:");
         notesArea = new JTextArea(4, 20);
@@ -37,6 +39,7 @@ public class ExpenseAdder extends JFrame {
         add (categoryLabel);
         add (categoryDropdown);
         add (notesLabel);
+        add(notesArea);
         add (addButton);
 
         //adding the actionlistener to the button
@@ -58,8 +61,10 @@ public class ExpenseAdder extends JFrame {
         float cost = Float.parseFloat(costField.getText());
         String category = (String) categoryDropdown.getSelectedItem();
         String notes = notesArea.getText();
-        System.out.println("Expense added: Name- " + name +", Cost- " + cost + ", Category- " + category- " +category + ". Notes- " + notes);
-        clearFields(); //will clear all text field after expense is added
+        System.out.println("Expense added: Name- " + name +", Cost- " + cost + ", Category- " + category +", Notes- " + notes);
+        Expense expense = new Expense(name, category, cost, notes);
+        eList.addExpense(expense);
+//        clearFields(); //will clear all text field after expense is added
     }
 
     
