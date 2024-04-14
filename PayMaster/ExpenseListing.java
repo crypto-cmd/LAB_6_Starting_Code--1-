@@ -6,10 +6,17 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
+
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,11 +25,15 @@ public class ExpenseListing extends JPanel {
     private JButton     cmdAddCard;
     private JButton     cmdAddExpense;
     private JButton     cmdPayAnExpense;
-  
+
+    private JButton     cmdGroupCategories;
+    private JButton     cmdSortName;
+    private JButton     cmdSortCost;
+
+
     private JPanel      commandPanel;
-    private JPanel      displayPanel;
     private ArrayList<Expense> expenseList;
-    private ExpenseListing thisForm;
+    private ExpenseListing me;
     private  JScrollPane scrollPane;
 
     private JTable table;
@@ -30,11 +41,10 @@ public class ExpenseListing extends JPanel {
 
     public ExpenseListing() {
         super(new GridLayout(2,1));
-        thisForm = this;
+        me = this;
         
 
         commandPanel = new JPanel();
-        displayPanel = new JPanel();
 
         expenseList= loadExpense();
         String[] columnNames=  {"Name",
@@ -86,11 +96,75 @@ public class ExpenseListing extends JPanel {
         commandPanel.add(cmdAddExpense);
         commandPanel.add(cmdPayAnExpense);
 
+
+        cmdGroupCategories = new JButton("Group by Category");
+        cmdGroupCategories.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                Map<String, List<Expense>> groups = new HashMap<>();
+                for (Expense e: expenseList) {
+                    if(!groups.containsKey(e.category)) {
+                        groups.put(e.category, new ArrayList<>());
+
+                    }
+                    groups.get(e.category).add(e);
+                }
+                ArrayList<String> categories = new ArrayList<>(groups.keySet());
+                Collections.sort(categories);
+                expenseList.clear();
+                for (String category: categories){
+                    expenseList.addAll(groups.get(category));
+                }
+                showTable(expenseList);
+            }
+        });
+        cmdSortCost = new JButton("Sort by Cost");
+        cmdSortCost.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        expenseList.sort(new Comparator<Expense>() {
+                            @Override
+                            public int compare(Expense expense, Expense other) {
+                                return (int) (expense.cost - other.cost);
+                            }
+                        });
+                        showTable(expenseList);
+                    }
+                }
+        );
+
+        cmdSortName = new JButton("Sort by Name");
+        cmdSortName.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        expenseList.sort(new Comparator<Expense>() {
+                            @Override
+                            public int compare(Expense expense, Expense other) {
+                                return expense.name.compareTo(other.name);
+                            }
+                        });
+                        showTable(expenseList);
+                    }
+                }
+        );
+
+        commandPanel.add(cmdGroupCategories);
+        commandPanel.add(cmdSortName);
+        commandPanel.add(cmdSortCost);
         add(commandPanel);
+    }
+
+    public void expensePaid(Expense expense) {
+        model.setRowCount(0);
+        expenseList.remove(expense);
+        showTable(expenseList);
     }
 
     private void showTable(ArrayList<Expense> l)
     {
+        model.setRowCount(0);
        for (Expense e: l) addToTable(e);
 
     }
@@ -104,7 +178,7 @@ public class ExpenseListing extends JPanel {
 
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Automated Telling System");
+        JFrame frame = new JFrame("Automated Teller System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create and set up the content pane.
