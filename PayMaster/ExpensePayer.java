@@ -35,7 +35,7 @@ public ExpensePayer(ExpenseListing elist){
     this.elist = elist;
     setTitle("Automated Teller System");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(400, 200);
+    setSize(400, 400);
     setLayout(new GridLayout(5,2));
 
     JLabel expenseLabel = new JLabel("Select Expense:");
@@ -52,7 +52,7 @@ public ExpensePayer(ExpenseListing elist){
     add(expenseDropDown);
 
     JLabel expense2Label = new JLabel("Enter Expense Amount:");
-    add(expenseLabel);
+    add(expense2Label);
 
     expenseField = new JTextField();
     add (expenseField);
