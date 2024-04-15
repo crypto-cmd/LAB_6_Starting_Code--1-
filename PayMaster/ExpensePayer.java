@@ -76,5 +76,17 @@ public void actionPerformed (ActionEvent start){
         JOptionPane.showMessageDialog(this, "Expense paid successfully");
     }
 }
+
+private void playTransactionSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(
+                getClass().getResourceAsStream("transaction_sound.wav"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println("Error playing sound: " + e.getMessage());
+        }
+    }
        
 }
